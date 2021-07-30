@@ -22,14 +22,41 @@
     terraform init
     ```
 
-2. Preview resource creation
+2. Configure AWS Credentials at `~/.aws/credentials`
+
+    ```
+    cat ~/.aws/credentials
+    [default]
+    aws_access_key_id=<secret>
+    aws_secret_access_key=<secret>
+    ```
+
+3. Preview resource creation
 
     ```
     terraform plan
     ```
 
-3. Create resources
+4. Create resources
 
     ```
     terraform apply
+    ```
+
+5. Observe outputs when creation is finished form the `apply` command
+
+    ```
+    Apply complete! Resources: 0 added, 2 changed, 0 destroyed.
+
+    Outputs:
+
+    base_url = "https://effixq4jwb.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage"
+    function_name = "serverless-rest-api"
+    lambda_bucket_name = "learn-terraform-functions-roughly-explicitly-live-ferret"
+    ```
+
+6. Check your REST Endpoint
+    
+    ```
+    curl "$(terraform output -raw base_url)/hello"
     ```
