@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.48.0"
+      version = "~> 4.0.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -40,7 +40,7 @@ data "archive_file" "lambda_hello_world" {
   output_path = "${path.module}/hello-world.zip"
 }
 
-resource "aws_s3_bucket_object" "lambda_hello_world" {
+resource "aws_s3_object" "lambda_hello_world" {
   bucket = aws_s3_bucket.lambda_bucket.id
 
   key    = "hello-world.zip"
@@ -53,7 +53,7 @@ resource "aws_lambda_function" "hello_world" {
   function_name = "HelloWorld"
 
   s3_bucket = aws_s3_bucket.lambda_bucket.id
-  s3_key    = aws_s3_bucket_object.lambda_hello_world.key
+  s3_key    = aws_s3_object.lambda_hello_world.key
 
   runtime = "nodejs12.x"
   handler = "hello.handler"
